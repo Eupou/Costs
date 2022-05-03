@@ -1,17 +1,5 @@
 {
-  "projects": [
-    {
-      "name": "Contratar desing",
-      "budget": "200",
-      "category": {
-        "id": "3",
-        "name": "Desing"
-      },
-      "cost": 0,
-      "services": [],
-      "id": 3
-    }
-  ],
+  "projects": [],
   "categories": [
     {
       "id": 1,
