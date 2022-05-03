@@ -2,7 +2,7 @@
   "projects": [
     {
       "name": "Contratar desing",
-      "budget": "3000",
+      "budget": "200",
       "category": {
         "id": "3",
         "name": "Desing"
