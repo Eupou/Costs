@@ -1,6 +1,8 @@
 // Hooks
 import { useState, useEffect } from "react";
 
+import { v4 as uuidv4 } from "uuid";
+
 // React-router
 import { useLocation } from "react-router-dom";
 
@@ -9,6 +11,7 @@ import Message from "../layout/Message";
 import Container from "../layout/Container";
 import LinkButton from "../layout/LinkButton";
 import Loading from "../layout/Loading";
+import Pagination from "../layout/Pagination";
 
 // Projects
 import ProjectCard from "../projects/ProjectCard";
@@ -20,11 +23,20 @@ function Projects() {
   const [projects, setProjects] = useState([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [projectMessage, setProjectMessage] = useState("");
+  const [firstEle, setFirstEle] = useState(0);
+  const [lastEle, setLastEle] = useState(7);
 
   const location = useLocation();
   let message = "";
   if (location.state) {
     message = location.state.message;
+  }
+
+  function getFirstEle(e) {
+    setFirstEle(e);
+  }
+  function getLastEle(e) {
+    setLastEle(e);
   }
 
   useEffect(() => {
@@ -39,6 +51,7 @@ function Projects() {
         .then((data) => {
           setProjects(data);
           setRemoveLoading(true);
+          console.log(data);
         })
         .catch((err) => console.log(err));
     }, 300);
@@ -69,16 +82,25 @@ function Projects() {
       {projectMessage && <Message msg={projectMessage} type="sucess" />}
       <Container customClass="start">
         {projects.length > 0 &&
-          projects.map((project) => (
-            <ProjectCard
-              id={project.id}
-              name={project.name}
-              budget={project.budget}
-              category={project.category.name}
-              key={project.id}
-              handleRemove={removeProjects}
-            />
-          ))}
+          projects.map(
+            (project, index) =>
+              index >= firstEle &&
+              index <= lastEle && (
+                <ProjectCard
+                  id={project.id}
+                  name={project.name}
+                  budget={project.budget}
+                  category={project.category.name}
+                  key={uuidv4()}
+                  handleRemove={removeProjects}
+                />
+              )
+          )}
+        <Pagination
+          nTotalOfEle={projects.length}
+          getFirstEle={getFirstEle}
+          getLastEle={getLastEle}
+        />
         {!removeLoading && <Loading />}
         {removeLoading && projects.length === 0 && (
           <p>Não há projetos cadastrados</p>
