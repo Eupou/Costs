@@ -7,8 +7,21 @@
         "id": "1",
         "name": "Infra"
       },
-      "cost": 0,
-      "services": [],
+      "cost": 912,
+      "services": [
+        {
+          "name": "hbjb",
+          "cost": "456",
+          "description": "bjhbjh",
+          "id": "c066cee0-f0d9-4760-90c5-7ccbc9a30011"
+        },
+        {
+          "name": "vbnvv",
+          "cost": "456",
+          "description": "hjbjhb",
+          "id": "7f534e57-91e9-4e78-8572-b20b8103d87d"
+        }
+      ],
       "id": 1
     },
     {
@@ -43,17 +56,6 @@
       "cost": 0,
       "services": [],
       "id": 5
-    },
-    {
-      "name": "sdas",
-      "budget": "456",
-      "category": {
-        "id": "1",
-        "name": "Infra"
-      },
-      "cost": 0,
-      "services": [],
-      "id": 6
     },
     {
       "name": "sdas",

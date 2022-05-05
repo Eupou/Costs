@@ -12,6 +12,7 @@ import Container from "../layout/Container";
 import LinkButton from "../layout/LinkButton";
 import Loading from "../layout/Loading";
 import Pagination from "../layout/Pagination";
+import SearchBar from "../layout/SearchBar";
 
 // Projects
 import ProjectCard from "../projects/ProjectCard";
@@ -25,6 +26,7 @@ function Projects() {
   const [projectMessage, setProjectMessage] = useState("");
   const [firstEle, setFirstEle] = useState(0);
   const [lastEle, setLastEle] = useState(7);
+  const [searchTerm, setSearchTerm] = useState();
 
   const location = useLocation();
   let message = "";
@@ -76,16 +78,21 @@ function Projects() {
     <div className={styles.project_container}>
       <div className={styles.tittle_container}>
         <h1>Meus projetos</h1>
+        <SearchBar setSearchTerm={(e) => setSearchTerm(e)} />
         <LinkButton to="/newproject" text="Criar projeto" />
       </div>
       {message && <Message msg={message} type="sucess" />}
       {projectMessage && <Message msg={projectMessage} type="sucess" />}
       <Container customClass="start">
-        {projects.length > 0 &&
-          projects.map(
-            (project, index) =>
-              index >= firstEle &&
-              index <= lastEle && (
+        {searchTerm
+          ? projects.length > 0 &&
+            projects
+              .filter(
+                (project) =>
+                  project.name.toLowerCase().indexOf(searchTerm.toLowerCase()) >
+                  -1
+              )
+              .map((project) => (
                 <ProjectCard
                   id={project.id}
                   name={project.name}
@@ -94,8 +101,23 @@ function Projects() {
                   key={uuidv4()}
                   handleRemove={removeProjects}
                 />
-              )
-          )}
+              ))
+          : projects.length > 0 &&
+            projects.map(
+              (project, index) =>
+                index >= firstEle &&
+                index <= lastEle && (
+                  <ProjectCard
+                    id={project.id}
+                    name={project.name}
+                    budget={project.budget}
+                    category={project.category.name}
+                    key={uuidv4()}
+                    handleRemove={removeProjects}
+                  />
+                )
+            )}
+
         <Pagination
           nTotalOfEle={projects.length}
           getFirstEle={getFirstEle}
