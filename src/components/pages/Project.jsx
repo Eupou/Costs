@@ -21,6 +21,7 @@ import ProjectForm from "../projects/ProjectForm";
 // Services
 import ServiceForm from "../services/ServiceForm";
 import ServiceCard from "../services/ServiceCard";
+import Pagination from "../layout/Pagination";
 
 function Project() {
   const { id } = useParams();
@@ -31,6 +32,8 @@ function Project() {
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [message, setMessage] = useState();
   const [type, setType] = useState();
+  const [firstEle, setFirstEle] = useState(0);
+  const [lastEle, setLastEle] = useState(7);
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,6 +78,7 @@ function Project() {
   }
 
   function createService(project) {
+    console.log(project.services);
     setMessage("");
     //  last service
     const lastService = project.services[project.services.length - 1];
@@ -85,7 +89,7 @@ function Project() {
 
     // maximum value validation
     if (newCost > parseFloat(project.budget)) {
-      setMessage("Orçamento ultrapssado, verifique o valor do serviço");
+      setMessage("Orçamento ultrapassado, verifique o valor do serviço");
       setType("error");
       project.services.pop();
       return false;
@@ -97,8 +101,8 @@ function Project() {
     // update project
     fetch(`http://localhost:5000/projects/${project.id}`, {
       method: "PATCH",
-      header: {
-        "Contant-Type": "application/json",
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(project),
     })
@@ -194,16 +198,25 @@ function Project() {
             <h2>serviços</h2>
             <Container customClass="start">
               {services.length > 0 &&
-                services.map((service) => (
-                  <ServiceCard
-                    id={service.id}
-                    name={service.name}
-                    cost={service.cost}
-                    description={service.description}
-                    key={service.id}
-                    handleRemove={removeService}
-                  />
-                ))}
+                services.map(
+                  (service, index) =>
+                    index >= firstEle &&
+                    index <= lastEle && (
+                      <ServiceCard
+                        id={service.id}
+                        name={service.name}
+                        cost={service.cost}
+                        description={service.description}
+                        key={service.id}
+                        handleRemove={removeService}
+                      />
+                    )
+                )}
+              <Pagination
+                nTotalOfEle={services.length}
+                getFirstEle={(e) => setFirstEle(e)}
+                getLastEle={(e) => setLastEle(e)}
+              />
               {services.length === 0 && <p>Não há serviços cadastrados</p>}
             </Container>
           </Container>

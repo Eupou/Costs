@@ -1,7 +1,7 @@
 // CSS
 import styles from "./SubmitButton.module.css";
 
-function SumbmitButton({ text }) {
+function SubmitButton({ text }) {
   return (
     <div>
       <button className={styles.btn}>{text}</button>
@@ -9,4 +9,4 @@ function SumbmitButton({ text }) {
   );
 }
 
-export default SumbmitButton;
+export default SubmitButton;

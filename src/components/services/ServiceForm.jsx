@@ -3,7 +3,7 @@ import { useState } from "react";
 
 // Form
 import Input from "../form/Input";
-import SumbmitButton from "../form/SubmitButton";
+import SubmitButton from "../form/SubmitButton";
 
 // CSS
 import styles from "../projects/ProjectForm.module.css";
@@ -45,7 +45,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }) {
         handleOnChange={handleOnChange}
       />
 
-      <SumbmitButton text={btnText} />
+      <SubmitButton text={btnText} />
     </form>
   );
 }

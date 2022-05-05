@@ -25,14 +25,8 @@ function Pagination({ nTotalOfEle, getFirstEle, getLastEle }) {
   setNumberOfPages();
 
   function showNewElementsOfThePage(id) {
-    console.log(id);
-    // if (id == 1) {
-    //   getFirstEle(0);
-    //   getLastEle(nOfElementsPerPage - 1);
-    // } else {
     getFirstEle(nOfElementsPerPage * (id - 1));
     getLastEle(nOfElementsPerPage * id - 1);
-    // }
   }
 
   return (

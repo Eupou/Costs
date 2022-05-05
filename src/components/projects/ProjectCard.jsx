@@ -13,15 +13,6 @@ function ProjectCard({ id, name, budget, category, handleRemove }) {
     handleRemove(id);
   };
 
-  // function log() {
-  //   if (id == 2) {
-  //     console.log("dois");
-  //   }
-  //   console.log(id);
-  // }
-
-  // log();
-
   return (
     <div className={styles.project_card}>
       <h4>{name}</h4>
