@@ -22,6 +22,7 @@ import ProjectForm from "../projects/ProjectForm";
 import ServiceForm from "../services/ServiceForm";
 import ServiceCard from "../services/ServiceCard";
 import Pagination from "../layout/Pagination";
+import SearchBar from "../layout/SearchBar";
 
 function Project() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function Project() {
   const [type, setType] = useState();
   const [firstEle, setFirstEle] = useState(0);
   const [lastEle, setLastEle] = useState(7);
+  const [searchTerm, setSearchTerm] = useState();
 
   useEffect(() => {
     setTimeout(() => {
@@ -155,6 +157,7 @@ function Project() {
             {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
               <h1>Projeto: {project.name}</h1>
+              <SearchBar setSearchTerm={(e) => setSearchTerm(e)} />
               <button className={styles.btn} onClick={toggleProjectForm}>
                 {!showProjectForm ? "Editar projeto" : "fechar"}
               </button>
@@ -197,21 +200,42 @@ function Project() {
             </div>
             <h2>serviços</h2>
             <Container customClass="start">
-              {services.length > 0 &&
-                services.map(
-                  (service, index) =>
-                    index >= firstEle &&
-                    index <= lastEle && (
-                      <ServiceCard
-                        id={service.id}
-                        name={service.name}
-                        cost={service.cost}
-                        description={service.description}
-                        key={service.id}
-                        handleRemove={removeService}
-                      />
+              {services.length > 0 && searchTerm
+                ? services
+                    .filter(
+                      (service) =>
+                        service.name
+                          .toLowerCase()
+                          .indexOf(searchTerm.toLowerCase()) > -1
                     )
-                )}
+                    .map(
+                      (service, index) =>
+                        index >= firstEle &&
+                        index <= lastEle && (
+                          <ServiceCard
+                            id={service.id}
+                            name={service.name}
+                            cost={service.cost}
+                            description={service.description}
+                            key={service.id}
+                            handleRemove={removeService}
+                          />
+                        )
+                    )
+                : services.map(
+                    (service, index) =>
+                      index >= firstEle &&
+                      index <= lastEle && (
+                        <ServiceCard
+                          id={service.id}
+                          name={service.name}
+                          cost={service.cost}
+                          description={service.description}
+                          key={service.id}
+                          handleRemove={removeService}
+                        />
+                      )
+                  )}
               <Pagination
                 nTotalOfEle={services.length}
                 getFirstEle={(e) => setFirstEle(e)}
